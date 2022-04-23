@@ -1,0 +1,31 @@
+package main.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import main.models.Train;
+import main.models.Trains;
+
+@Service
+public class AdminService {
+
+	
+	@Autowired
+	private WebClient.Builder builder;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	
+	public List<Train> findAllTrains() {
+			Trains trains = restTemplate.getForObject("https://TRAIN-SERVICE/trains/public/findAllTrains", Trains.class);	
+		return trains.getList();
+	}
+
+}
