@@ -29,9 +29,9 @@ public class TrainService {
 		
 	}
 
-	public String updateTrain(Train train) {
+	public Train updateTrain(Train train) {
 	    trainRepository.save(train);
-		return "Updated Successfully";
+		return train;
 	}
 	
 	

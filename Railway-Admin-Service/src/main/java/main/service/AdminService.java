@@ -34,4 +34,17 @@ public class AdminService {
 		
 	}
 
+
+	public String updateTrain(Train train, String trainNo) {
+		
+		 restTemplate.put("https://TRAIN-SERVICE/trains/public/updateTrainByTrainNo/"+trainNo, train);
+		 return "Updated Succesfully";
+	}
+
+
+	public String deleteTrainByTrainNo(String trainNo) {
+		restTemplate.delete("https://TRAIN-SERVICE/trains/public/deleteTrainByTrainNo/"+trainNo);
+		return "DELETED SUCCESSFULLY";
+	}
+
 }

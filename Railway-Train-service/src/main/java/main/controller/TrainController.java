@@ -58,15 +58,15 @@ public class TrainController {
 	//Delete Train
 	@DeleteMapping("/public/deleteTrainByTrainNo/{trainNo}")
 	public String deleteTrain(@PathVariable String trainNo) {
-		Train train=trainService.getAllTrains().stream().filter(p->p.getTrainNo().equals(trainNo)).collect(Collectors.toList()).get(0);
+		Train train=trainService.getAllTrains().stream().filter(data->data.getTrainNo().equals(trainNo)).collect(Collectors.toList()).get(0);
 		trainService.deleteTrainByTrainNo(train);
 		
 		return "Deleted SuccessFully";
 	}
 	//Update Train
 	@PutMapping("/public/updateTrainByTrainNo/{trainNo}")
-	public String updateTrainByTrainNo(@PathVariable String trainNo,@RequestBody Train train) {
-		return trainService.updateTrain(train);
+	public Train updateTrainByTrainNo(@PathVariable String trainNo,@RequestBody Train train) {
+		 return trainService.updateTrain(train);
 	}
 	
 }
