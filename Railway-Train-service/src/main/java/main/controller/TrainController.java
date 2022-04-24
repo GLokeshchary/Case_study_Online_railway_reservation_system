@@ -25,9 +25,9 @@ public class TrainController {
 	private TrainService trainService;
 	//save train
 	@PostMapping("/public/addTrain")
-	public String addTrain(@RequestBody Train train) {
+	public Train addTrain(@RequestBody Train train) {
 		trainService.addTrain(train);
-		return "Saved";
+		return train;
 	}
 	//GET all trains
 	@GetMapping("/public/getAllTrains")

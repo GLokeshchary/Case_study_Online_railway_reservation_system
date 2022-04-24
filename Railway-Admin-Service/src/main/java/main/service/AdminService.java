@@ -28,4 +28,10 @@ public class AdminService {
 		return trains.getList();
 	}
 
+
+	public Train saveTrain(Train train) {
+		return restTemplate.postForObject("https://TRAIN-SERVICE/trains/public/addTrain", train, Train.class);
+		
+	}
+
 }
