@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import main.exception.InvalidTrainNoException;
+import main.exception.NoTrainExistException;
 import main.models.Train;
 import main.models.Trains;
 import main.service.TrainService;
@@ -34,7 +36,7 @@ public class TrainController {
 	public List<Train> getAllTrains(){
 		return trainService.getAllTrains();
 	}
-	//CAlling get all trains through microservice connection
+	//CAlling get all trains through micro service communication
 	@GetMapping("/public/findAllTrains")
 	public Trains findAllTrains() {
 		List<Train> trainList=trainService.getAllTrains();
@@ -45,22 +47,22 @@ public class TrainController {
 	//get all the trains between two stations
 	@GetMapping("/public/getTrainBetween/{origin}:{destination}")
 	public List<Train> getTrainBetweenTwoStations(@PathVariable String origin,@PathVariable String destination){
-		List<Train> list=trainService.getAllTrains();
-		 return list.stream().filter(data->data.getDepatureStation().equals(origin) && data.getArrivalStation().equals(destination)).collect(Collectors.toList());
+		
+		 return trainService.getTrainBetweenTwoStations(origin, destination);
 	}
 	
 	//get train by train no
 	@GetMapping("/public/getTrainByTrainNo/{trainNo}")
 	public Train getTrainByTrainNo(@PathVariable String trainNo) {
-		return trainService.getAllTrains().stream().filter(data->data.getTrainNo().equals(trainNo)).collect(Collectors.toList()).get(0);
+		
+		return trainService.getTrainByTrainNo(trainNo);
 	}
 	
 	//Delete Train
 	@DeleteMapping("/public/deleteTrainByTrainNo/{trainNo}")
 	public String deleteTrain(@PathVariable String trainNo) {
-		Train train=trainService.getAllTrains().stream().filter(data->data.getTrainNo().equals(trainNo)).collect(Collectors.toList()).get(0);
-		trainService.deleteTrainByTrainNo(train);
 		
+		trainService.deleteTrainByTrainNo(trainNo);
 		return "Deleted SuccessFully";
 	}
 	//Update Train
