@@ -6,28 +6,37 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import main.exception.InvalidTrainNoException;
 import main.exception.NoTrainExistException;
 import main.models.Train;
 import main.repository.TrainRepository;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class TrainService {
 	
 	@Autowired
 	TrainRepository trainRepository;
 
-	public void addTrain(Train train) {
+	public Train addTrain(Train train) {
 		trainRepository.save(train);
+		return train;
 		
 	}
 
-	public List<Train> getAllTrains() {
+	public List<Train> getAllTrains() throws NoTrainExistException {
 		
-		return trainRepository.findAll();
+		List<Train> trains = trainRepository.findAll();
+		if(trains.isEmpty()) {
+			throw new NoTrainExistException("No Trains Found");
+		}
+		return trains;
 	}
 
-	public void deleteTrainByTrainNo(String trainNo) {
+	public void deleteTrainByTrainNo(String trainNo) throws InvalidTrainNoException {
 		
 		List<Train> trains=trainRepository.findAll();
 		try {
@@ -62,8 +71,6 @@ public class TrainService {
 				throw new NoTrainExistException("TRAIN NOT FOUND");
 			}
 		} catch (NoTrainExistException e) {
-			
-			e.getMessage();
 			e.printStackTrace();
 		}
 		

@@ -28,17 +28,17 @@ public class TrainController {
 	//save train
 	@PostMapping("/public/addTrain")
 	public Train addTrain(@RequestBody Train train) {
-		trainService.addTrain(train);
-		return train;
+		return trainService.addTrain(train);
+		
 	}
 	//GET all trains
 	@GetMapping("/public/getAllTrains")
-	public List<Train> getAllTrains(){
+	public List<Train> getAllTrains() throws NoTrainExistException{
 		return trainService.getAllTrains();
 	}
 	//CAlling get all trains through micro service communication
 	@GetMapping("/public/findAllTrains")
-	public Trains findAllTrains() {
+	public Trains findAllTrains() throws NoTrainExistException {
 		List<Train> trainList=trainService.getAllTrains();
 		Trains trains=new Trains();
 		trains.setList(trainList);
@@ -60,7 +60,7 @@ public class TrainController {
 	
 	//Delete Train
 	@DeleteMapping("/public/deleteTrainByTrainNo/{trainNo}")
-	public String deleteTrain(@PathVariable String trainNo) {
+	public String deleteTrain(@PathVariable String trainNo) throws InvalidTrainNoException {
 		
 		trainService.deleteTrainByTrainNo(trainNo);
 		return "Deleted SuccessFully";
